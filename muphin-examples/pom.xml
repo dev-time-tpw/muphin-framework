@@ -11,7 +11,7 @@
 	<artifactId>muphin-examples</artifactId>
 	<packaging>jar</packaging>
 
-	<name>muphin - Example module</name>
+	<name>muphin - example module</name>
 	<description>Several examples how the muphin framework can be used</description>
 
 	<properties>

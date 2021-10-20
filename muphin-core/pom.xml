@@ -11,7 +11,7 @@
 	<artifactId>muphin-core</artifactId>
 	<packaging>jar</packaging>
 
-	<name>muphin - Core module</name>
+	<name>muphin - core module</name>
 	<description>Core module of the muphin framework</description>
 
 	<properties>

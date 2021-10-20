@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>muphin (build)</name>
+	<name>muphin - build module</name>
 	<description>Build module of the muphin framework</description>
 
 	<modules>
