@@ -18,8 +18,8 @@
     <a href="https://github.com/dev-time-tpw/muphin-framework" title="Last Commit"><img src="https://img.shields.io/github/last-commit/dev-time-tpw/muphin-framework?logo=GitHub"></a>
 	<br>    
     <a href="https://sonarcloud.io/dashboard?id=devtime_muphin-framework" title="Quality Gate"><img src="https://sonarcloud.io/api/project_badges/measure?project=devtime_muphin-framework&metric=alert_status"></a>
-    <a href="https://sonarcloud.io/dashboard?id=mdevtime_muphin-framework" title="Successful tests"><img src="https://img.shields.io/sonar/test_success_density/devtime_muphin-framework?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io"></a>
-    <a href="https://sonarcloud.io/dashboard?id=devtime_muphin-framework" title="Coverage"><img src="https://img.shields.io/sonar/coverage/devtime_muphin-framework?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io"></a>
+    <a href="https://sonarcloud.io/dashboard?id=devtime_muphin-framework" title="Successful tests"><img src="https://img.shields.io/sonar/test_success_density/devtime_muphin-framework?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io"></a>
+    <a href="https://sonarcloud.io/dashboard?id=devtime_muphin-framework" title="Coverage"><img src="https://sonarcloud.io/api/project_badges/measure?project=devtime_muphin-framework&metric=coverage"></a>
     <a href="https://sonarcloud.io/dashboard?id=devtime_muphin-framework" title="Lines of code"><img src="https://sonarcloud.io/api/project_badges/measure?project=devtime_muphin-framework&metric=ncloc"></a>
 </p>
 
