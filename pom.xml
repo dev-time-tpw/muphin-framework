@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.devtime.common</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>de.devtime.muphin</groupId>
+	<artifactId>muphin-build</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>muphin (build)</name>
+	<description>Build module of the muphin framework</description>
+
+	<modules>
+		<module>muphin-core</module>
+		<module>muphin-examples</module>
+	</modules>
+
+	<scm>
+		<developerConnection>scm:git:https://github.com/dev-time-tpw/muphin-framework.git</developerConnection>
+		<url>https://github.com/dev-time-tpw/muphin-framework</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<!-- Used by SonarCloud -->
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>devtime</sonar.organization>
+		<sonar.projectKey>devtime_muphin-framework</sonar.projectKey>
+		<!-- solution for StackOverflowError problem (@see: https://community.sonarsource.com/t/stackoverflowerror-at-defaultinputcomponent-equals/20324) -->
+		<sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
+</project>
