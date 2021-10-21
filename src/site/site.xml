@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-fluido-skin</artifactId>
+		<version>1.9</version>
+	</skin>
+
+	<bannerRight>
+		<src>https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-logo-simple-dark_282x50.png</src>
+	</bannerRight>
+
+	<version position="right" />
+	<publishDate position="right" />
+
+	<body>
+		<menu name="Overview">
+			<item name="Introduction" href="index.html" />
+<!-- 			<item name="Usage" href="usage.html" /> -->
+<!-- 			<item name="FAQ" href="faq.html" /> -->
+			<!-- According to https://issues.apache.org/jira/browse/MNGSITE-152 -->
+			<item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
+<!-- 			<item name="Download" href="download.html" /> -->
+		</menu>
+
+		<menu ref="modules" />
+
+		<menu name="Examples">
+<!-- 			<item name="Creating Content" href="/examples/creating-content.html" /> -->
+<!-- 			<item name="Configuring the Site Descriptor" href="/examples/sitedescriptor.html" /> -->
+<!-- 			<item name="Building a multi-module site" href="/examples/multimodule.html" /> -->
+<!-- 			<item name="Configuring Site Run" href="/examples/siterun.html" /> -->
+<!-- 			<item name="Excluding Document Formats" href="/examples/moduleexcludes.html" /> -->
+		</menu>
+
+		<menu ref="reports" />
+
+		<footer><![CDATA[Copyright (c) 2021 <img src="https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-86x12.png" />. All rights reserved.]]></footer>
+
+	</body>
+</project>

@@ -41,7 +41,7 @@ Siehe <a href="https://github.com/dev-time-tpw/parent-pom#über-uns">Über uns (
 
 ## Lizenzierung
 
-Copyright (c) 2021 <img src="https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-86x12.png">.
+Copyright (c) 2021 <img src="https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-86x12.png" />.
 
 Lizenziert unter **Apache-Lizenz, Version 2.0** (die "Lizenz"). Sie dürfen diese Datei ausschließlich im Einklang mit 
 der Lizenz verwenden.
@@ -51,6 +51,3 @@ Eine Kopie der Lizenz erhalten Sie unter https://www.apache.org/licenses/LICENSE
 Sofern nicht durch anwendbares Recht gefordert oder schriftlich vereinbart, wird jede unter der Lizenz bereitgestellte 
 Software „OHNE MÄNGELGEWÄHR“ UND OHNE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GARANTIE JEGLICHER ART bereitgestellt. 
 Die genauen Angaben zu Genehmigungen und Einschränkungen unter der Lizenz finden Sie in der [LIZENZ](LICENSE).
-
-
-<div>Icons erstellt von <a href="https://www.flaticon.com/de/autoren/pause08" title="Pause08">Pause08</a> von <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a></div>
