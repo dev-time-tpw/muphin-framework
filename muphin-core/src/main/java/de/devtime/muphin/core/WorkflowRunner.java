@@ -85,15 +85,25 @@ import de.devtime.muphin.core.workflow.AbstractWorkflow;
 public class WorkflowRunner extends Runner implements Filterable {
 
   private interface Callback {
-    default void workflow(AbstractWorkflow workflow) {}
+    default void workflow(AbstractWorkflow workflow) {
+      // default implementation that does nothing to allow only override necessary methods
+    }
 
-    default void phase(AbstractPhase phase) {}
+    default void phase(AbstractPhase phase) {
+      // default implementation that does nothing to allow only override necessary methods
+    }
 
-    default void runBeforePhase(FrameworkMethod method, Iterator<FrameworkMethod> iter) {}
+    default void runBeforePhase(FrameworkMethod method, Iterator<FrameworkMethod> iter) {
+      // default implementation that does nothing to allow only override necessary methods
+    }
 
-    default void runPhase(AbstractWorkflow workflow, AbstractPhase phase) {}
+    default void runPhase(AbstractWorkflow workflow, AbstractPhase phase) {
+      // default implementation that does nothing to allow only override necessary methods
+    }
 
-    default void runAfterPhase(FrameworkMethod method, Iterator<FrameworkMethod> iter) {}
+    default void runAfterPhase(FrameworkMethod method, Iterator<FrameworkMethod> iter) {
+      // default implementation that does nothing to allow only override necessary methods
+    }
   }
 
   private static final Logger LOG = LoggerFactory.getLogger(WorkflowRunner.class);

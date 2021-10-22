@@ -4,8 +4,8 @@
 
 	<parent>
 		<groupId>de.devtime.common</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<artifactId>checkstyle-parent-pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>de.devtime.muphin</groupId>
@@ -34,10 +34,7 @@
 		<sonar.projectKey>devtime_muphin-framework</sonar.projectKey>
 		<!-- solution for StackOverflowError problem (@see: https://community.sonarsource.com/t/stackoverflowerror-at-defaultinputcomponent-equals/20324) -->
 		<sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-	</dependencyManagement>
+		<checkstyle_configuration_file>${project.build.directory}/generated-resources/devtime_checks.xml</checkstyle_configuration_file>
+	</properties>
 </project>
