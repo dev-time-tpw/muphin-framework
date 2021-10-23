@@ -2,6 +2,7 @@ package de.devtime.muphin.core.cmd;
 
 /**
  * A command line query builder that simplifies the creation of multiple commands on a single line.
+ *
  * <p>
  * The {@code DefaultCmdQueryBuilder} contains some general helper methods for common commands. It is recommended that
  * you create your own query builder and extend it with your specific command line tasks. You have several ways to do
@@ -18,8 +19,6 @@ package de.devtime.muphin.core.cmd;
  * fluent calling mechanism. This is the recommended way for larger command line support.
  * </ol>
  * <b>Examples</b><br>
- *
- *
  * Create your own class.
  *
  * <pre>
@@ -31,6 +30,7 @@ package de.devtime.muphin.core.cmd;
  *   }
  * }
  * </pre>
+ *
  * <p>
  * Just use {@code DefaultCmdQueryBuilder}.
  *
@@ -90,18 +90,21 @@ public class DefaultCmdQueryBuilder {
 
   /**
    * Adds a git pull command to the query builder.
+   *
    * <p>
    * <b>Further information</b><br>
    * Depending on the type of cloned repository and the operating system, authorization must be ensured in advance. On
    * unix systems, access via ssh is recommended, since no further credentials are required.<br>
    * For Windows systems, the Windows Credential Manager can be used for access via https.<br>
    * {@code git config --global credential.helper manager}
+   *
    * <p>
    * It is important that git is able to authenticate against the remote server in some way so that no manual user
    * interaction is required!
    *
    * @return this query builder
-   * @see https://snede.net/git-does-not-remember-username-password/
+   * @see <a href="https://snede.net/git-does-not-remember-username-password/">git does not remember username and
+   *      password</a>
    * @since 0.0.1
    */
   public DefaultCmdQueryBuilder gitPull() {
@@ -133,6 +136,9 @@ public class DefaultCmdQueryBuilder {
     return this.cmdQuery.toString();
   }
 
+  /**
+   * Adds a separator to the query before adding the next command.
+   */
   protected void prepareForNextCommand() {
     if (this.cmdQuery.length() > 0) {
       this.cmdQuery.append(this.separator);

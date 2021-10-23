@@ -2,16 +2,18 @@ package de.devtime.muphin.core.cmd;
 
 /**
  * A generic command line query builder that simplifies the creation of multiple commands.
+ *
  * <p>
  * With this query builder it is possible to create your own builder that inherits from this one and supports a fluent
  * calling mechanism. You only have to implement the {@link #getBuilder()} method and return the instance of your own
  * builder. This is necessary for this generic query builder so that it can return your own query builder type to
  * support the fluent notation.
+ *
  * <p>
  * <b>Examples</b><br>
  *
  * <pre>
- * public class MyGenericCmdQueryBuilder extends GenericCmdQueryBuilder<MyGenericCmdQueryBuilder> {
+ * public class MyGenericCmdQueryBuilder extends GenericCmdQueryBuilder&lt;MyGenericCmdQueryBuilder&gt; {
  *
  *   public MyGenericCmdQueryBuilder startMyApp() {
  *     addCustomCommand("start myApp.exe");
@@ -49,8 +51,10 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#withSeparator(String)}
+   * Delegate to {@link DefaultCmdQueryBuilder#withSeparator(String)}.
    *
+   * @param separator a separator
+   * @return this generic query builder
    * @since 0.0.1
    */
   public T withSeparator(String separator) {
@@ -59,8 +63,10 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#changeDirectory(String)}
+   * Delegate to {@link DefaultCmdQueryBuilder#changeDirectory(String)}.
    *
+   * @param directoryPath a directory
+   * @return this generic query builder
    * @since 0.0.1
    */
   public T changeDirectory(String directoryPath) {
@@ -69,8 +75,9 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#gitPull()}
+   * Delegate to {@link DefaultCmdQueryBuilder#gitPull()}.
    *
+   * @return this generic query builder
    * @since 0.0.1
    */
   public T gitPull() {
@@ -79,8 +86,10 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#addCustomCommand(String)}
+   * Delegate to {@link DefaultCmdQueryBuilder#addCustomCommand(String)}.
    *
+   * @param command a command
+   * @return this generic query builder
    * @since 0.0.1
    */
   public T addCustomCommand(String command) {
@@ -89,8 +98,9 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#getCommand()}
+   * Delegate to {@link DefaultCmdQueryBuilder#getCommand()}.
    *
+   * @return this generic query builder
    * @since 0.0.1
    */
   public String getCommand() {
@@ -98,7 +108,7 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * Delegate to {@link DefaultCmdQueryBuilder#prepareForNextCommand()}
+   * Delegate to {@link DefaultCmdQueryBuilder#prepareForNextCommand()}.
    *
    * @since 0.0.1
    */
@@ -107,7 +117,9 @@ public abstract class GenericCmdQueryBuilder<T extends GenericCmdQueryBuilder<T>
   }
 
   /**
-   * @return this builder for fluent notation support
+   * Returns this generic query builder for fluent notation support.
+   *
+   * @return this generic query builder
    * @since 0.0.1
    */
   protected abstract T getBuilder();

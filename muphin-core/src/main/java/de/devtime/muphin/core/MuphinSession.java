@@ -22,7 +22,10 @@ public class MuphinSession {
   private static final MuphinSession INSTANCE = new MuphinSession();
 
   /**
-   * @return only instance of this session
+   * Returns the only instance of this session.
+   *
+   * @return this session
+   * @since 0.0.1
    */
   public static final MuphinSession getInstance() {
     return INSTANCE;
@@ -101,6 +104,8 @@ public class MuphinSession {
   }
 
   /**
+   * Returns the current workflow which the framework is processing.
+   *
    * @return the current workflow
    * @since 0.0.1
    */
@@ -110,6 +115,7 @@ public class MuphinSession {
 
   /**
    * Sets the current workflow that is executed by this framework.
+   *
    * <p>
    * This method has package-default visibility and is designed for internal usage. The {@link WorkflowRunner} should be
    * the only instance that sets this current workflow instance!
@@ -122,6 +128,8 @@ public class MuphinSession {
   }
 
   /**
+   * Returns the current phase which the framework is processing.
+   *
    * @return the current phase
    * @since 0.0.1
    */
@@ -131,6 +139,7 @@ public class MuphinSession {
 
   /**
    * Sets the current phase that is executed ba this framework.
+   *
    * <p>
    * This method has package-default visibility and is designed for internal usage. The {@link WorkflowRunner} should be
    * the only instance that sets this current phase instance!

@@ -2,6 +2,7 @@ package de.devtime.muphin.core.phase;
 
 /**
  * Defines any phase or task within a process or workflow.
+ *
  * <p>
  * A phase represents a single action that is executed and for which a testable state exists before or after. For
  * example, one phase can be copying a file. A subsequent phase can then be the call of an application that processes
@@ -34,7 +35,9 @@ public abstract class AbstractPhase {
   }
 
   /**
-   * @return a kin that groups similar phases together
+   * Returns a kind that groups similar phases together.
+   *
+   * @return a kind
    * @since 0.0.1
    */
   public String getKind() {
@@ -42,7 +45,9 @@ public abstract class AbstractPhase {
   }
 
   /**
-   * @return a unique name for this phase
+   * Returns a name for this phase.
+   *
+   * @return a name
    * @since 0.0.1
    */
   public String getName() {

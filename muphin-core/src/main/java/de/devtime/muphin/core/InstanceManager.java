@@ -23,7 +23,9 @@ public class InstanceManager {
   private static final InstanceManager INSTANCE = new InstanceManager();
 
   /**
-   * @return only instance of this manager
+   * Returns the only instance of this manager.
+   *
+   * @return this manager
    * @since 0.0.1
    */
   public static final InstanceManager getInstance() {

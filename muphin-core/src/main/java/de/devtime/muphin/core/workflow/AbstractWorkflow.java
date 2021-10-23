@@ -8,6 +8,7 @@ import de.devtime.muphin.core.phase.AbstractPhase;
 
 /**
  * Defines an arbitrary process or workflow.
+ *
  * <p>
  * All user-defined workflow classes must inherit from this abstract workflow class. Each workflow must be given a
  * unique name and a collection of phases that belong to that workflow. The phases are specified in a sorted order.
@@ -37,7 +38,9 @@ public abstract class AbstractWorkflow {
   }
 
   /**
-   * @return a unique name of this workflow
+   * Returns a name of this workflow.
+   *
+   * @return a name
    * @since 0.0.1
    */
   public String getName() {
@@ -45,7 +48,9 @@ public abstract class AbstractWorkflow {
   }
 
   /**
-   * @return a collection of phases that belongs to this workflow
+   * Returns a collection of phases that belongs to this workflow.
+   *
+   * @return a collection of phases
    * @since 0.0.1
    */
   public List<AbstractPhase> getPhases() {

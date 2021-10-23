@@ -48,8 +48,10 @@ import de.devtime.muphin.core.workflow.AbstractWorkflow;
 /**
  * Implements the muphin standard test case runner that executes all test methods in the correct workflow and phases
  * order.
+ *
  * <p>
  * You can use this runner in different ways.
+ *
  * <p>
  * <b>Suite variant</b><br>
  * Use the runner on an empty test class analogous to a {@linkplain Suite}. If no concrete workflow classes are
@@ -61,6 +63,7 @@ import de.devtime.muphin.core.workflow.AbstractWorkflow;
  *
  * }
  * </pre>
+ *
  * <p>
  * <b>Filtered variant</b><br>
  * Use the runner on a test class, to run only this test class or a single test method from this test class. In this
@@ -119,6 +122,19 @@ public class WorkflowRunner extends Runner implements Filterable {
 
   private final ConcurrentMap<FrameworkMethod, Description> methodDescriptions = new ConcurrentHashMap<>();
 
+  /**
+   * Creates a new instance of this workflow runner with an underlying test class.
+   *
+   * <p>
+   * This test class controls the execution of the various flows. If the test class is annotated with
+   * {@link WorkflowTest} then only the tests of this class in the context of the associated workflow are executed. If
+   * the annotation is not present, all classes on the classpath with this annotation are searched for and executed.<br>
+   * This distinction is necessary in order to have all tests executed via some kind of suite class and, on the other
+   * hand, to be able to test only individual test classes via the IDE during development.
+   *
+   * @param testClass a test class
+   * @since 0.0.1
+   */
   public WorkflowRunner(Class<?> testClass) {
     super();
 
@@ -127,13 +143,18 @@ public class WorkflowRunner extends Runner implements Filterable {
 
   /**
    * Returns a {@link TestClass} object wrapping the class to be executed.
+   *
+   * @return a test class
+   * @since 0.0.1
    */
   public final TestClass getTestClass() {
     return this.testClass;
   }
 
   /**
-   * @return a {@link Description} showing the tests to be run by the receiver
+   * Returns a {@link Description} showing the tests to be run by the receiver.
+   *
+   * @return a description
    * @since 0.0.1
    */
   @Override
@@ -336,12 +357,20 @@ public class WorkflowRunner extends Runner implements Filterable {
    * (validation should have ensured one exists).
    *
    * @param method a test methode to execute
+   * @return a new test instance
    * @since 0.0.1
    */
   protected Object createTest(FrameworkMethod method) throws Exception {
     return method.getDeclaringClass().getConstructor().newInstance();
   }
 
+  /**
+   * Create a new Statement for the given method block.
+   *
+   * @param method a test method
+   * @return a statement
+   * @since 0.0.1
+   */
   protected Statement methodBlock(final FrameworkMethod method) {
     Object test;
     try {
@@ -359,10 +388,11 @@ public class WorkflowRunner extends Runner implements Filterable {
   }
 
   /**
-   * Returns a {@link Statement} that invokes {@code method} on {@code test}
+   * Returns a {@link Statement} that invokes {@code method} on {@code test}.
    *
    * @param method a test method to execute
    * @param test a class to that the test method belongs
+   * @return a statement
    * @since 0.0.1
    */
   protected Statement methodInvoker(FrameworkMethod method, Object test) {
@@ -373,6 +403,7 @@ public class WorkflowRunner extends Runner implements Filterable {
    * Evaluates whether {@link FrameworkMethod}s are ignored based on the {@link Ignore} annotation.
    *
    * @param method a test method to check
+   * @return {@code true} if the given test methode should be ignored, otherwise {@code false}
    * @since 0.0.1
    */
   protected boolean isIgnored(FrameworkMethod method) {

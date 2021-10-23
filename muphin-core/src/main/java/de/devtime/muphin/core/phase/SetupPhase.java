@@ -2,6 +2,7 @@ package de.devtime.muphin.core.phase;
 
 /**
  * The setup phase is always the first phase of a workflow and is therefore always executed first.
+ *
  * <p>
  * This phase is inserted internally by the framework at the beginning of a workflow and therefore does not have to be
  * inserted manually by the developer. Nevertheless, test methods can register in the setup phase and are executed

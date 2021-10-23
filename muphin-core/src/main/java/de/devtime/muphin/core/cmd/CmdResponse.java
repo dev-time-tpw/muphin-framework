@@ -28,7 +28,9 @@ public class CmdResponse {
   }
 
   /**
-   * @return an exit value from the command line execution
+   * Returns an exit value from the command line execution.
+   *
+   * @return an exit value
    * @since 0.0.1
    */
   public int getExitValue() {
@@ -36,7 +38,9 @@ public class CmdResponse {
   }
 
   /**
-   * @return a message that comes from the command line output
+   * Returns a message that comes from the command line output.
+   *
+   * @return a message
    * @since 0.0.1
    */
   public String getMessage() {
@@ -44,11 +48,12 @@ public class CmdResponse {
   }
 
   /**
-   * @return an exception, if one occurred while executing the command line task
+   * Returns an exception, if one occurred while executing the command line task.
+   *
+   * @return an exception
    * @since 0.0.1
    */
   public Exception getException() {
     return this.exception;
   }
-
 }

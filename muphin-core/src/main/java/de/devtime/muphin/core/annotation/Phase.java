@@ -10,11 +10,12 @@ import de.devtime.muphin.core.phase.NoPhase;
 
 /**
  * Use this annotation to bind a test method to an existing phase that exists in a workflow.
+ *
  * <p>
  * The parameters {@code beforePhase} and {@code afterPhase} can be used to specify at which phase the test method
  * should be executed before or after.
- * <p>
  *
+ * <p>
  * <b>Usage</b>
  *
  * <pre>
@@ -35,13 +36,17 @@ import de.devtime.muphin.core.phase.NoPhase;
 public @interface Phase {
 
   /**
-   * @return a phase to which this test method is previously executed
-   * @since 0.0.01
+   * Returns a phase to which this test method is previously executed.
+   *
+   * @return a phase
+   * @since 0.0.1
    */
   Class<? extends AbstractPhase> beforePhase() default NoPhase.class;
 
   /**
-   * @return a phase to which this test method is executed afterwards
+   * Returns a phase to which this test method is executed afterwards.
+   *
+   * @return a phase
    * @since 0.0.1
    */
   Class<? extends AbstractPhase> afterPhase() default NoPhase.class;

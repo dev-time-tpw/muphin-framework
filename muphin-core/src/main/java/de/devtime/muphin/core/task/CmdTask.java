@@ -19,6 +19,7 @@ import de.devtime.muphin.core.exception.MuphinFailureException;
  * Provides a way to execute command line tasks. A command line command is executed using {@link DefaultExecutor} and
  * its result is checked against the specified verification rules. There are several standard verifications available in
  * this class that can be used when creating a {@code CmdTask}.
+ *
  * <p>
  * <b>Examples</b><br>
  *
@@ -144,6 +145,7 @@ public class CmdTask implements Task {
 
   /**
    * Creates a new instance of this {@code CmdTask} and sets the given parameter.
+   *
    * <p>
    * <b>Synchrony execution</b><br>
    * After the command line execution this task waits for execution finish up to the default timeout of 30 seconds. If a
@@ -166,6 +168,7 @@ public class CmdTask implements Task {
 
   /**
    * Creates a new instance of this {@code CmdTask} and sets the given parameter.
+   *
    * <p>
    * <b>Synchrony execution</b><br>
    * After the command line execution this task waits for execution finish up to the specified timeout. If a result is
@@ -189,6 +192,7 @@ public class CmdTask implements Task {
 
   /**
    * Creates a new instance of this {@code CmdTask} and sets the given parameter.
+   *
    * <p>
    * <b>Asynchrony execution</b><br>
    * This task does not wait for any response of the started command line task. For this reason, only an internal
@@ -225,13 +229,15 @@ public class CmdTask implements Task {
     }
     if (!success) {
       throw new MuphinFailureException(cmdResponse.getException(),
-          "The task {} was not executed successfully and returned the exit value {}. Response of the executed task is {}",
+          "The task {} was not executed successfully and returned the exit value {}. Response is {}",
           this.command, cmdResponse.getExitValue(), cmdResponse.getMessage());
     }
   }
 
   /**
-   * @return a executor to run the commands
+   * Returns a executor command to run the commands.
+   *
+   * @return a executor command
    * @since 0.0.1
    */
   protected DefaultExecutor getExecutor() {
@@ -239,7 +245,10 @@ public class CmdTask implements Task {
   }
 
   /**
-   * @return a result handler that provides the result of a command line execution (e.g. exit value, message, exception)
+   * Returns a result handler that provides the result of a command line execution (e.g. exit value, message,
+   * exception).
+   *
+   * @return a result handler
    * @since 0.0.1
    */
   protected DefaultExecuteResultHandler getExecuteResultHandler() {
