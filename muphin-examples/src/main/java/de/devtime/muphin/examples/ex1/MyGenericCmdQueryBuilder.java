@@ -21,11 +21,6 @@ public class MyGenericCmdQueryBuilder extends GenericCmdQueryBuilder<MyGenericCm
     return getBuilder();
   }
 
-  @Override
-  protected MyGenericCmdQueryBuilder getBuilder() {
-    return this;
-  }
-
   /**
    * Start of the program.
    *
@@ -37,5 +32,10 @@ public class MyGenericCmdQueryBuilder extends GenericCmdQueryBuilder<MyGenericCm
         .changeDirectory("myapp")
         .startMyApp()
         .getCommand();
+  }
+
+  @Override
+  protected MyGenericCmdQueryBuilder getBuilder() {
+    return this;
   }
 }

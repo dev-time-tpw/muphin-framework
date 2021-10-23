@@ -138,6 +138,8 @@ public class DefaultCmdQueryBuilder {
 
   /**
    * Adds a separator to the query before adding the next command.
+   *
+   * @since 0.0.1
    */
   protected void prepareForNextCommand() {
     if (this.cmdQuery.length() > 0) {

@@ -22,8 +22,12 @@ public class TearDownPhase extends AbstractPhase {
     super(AbstractPhase.INTERNAL_KIND, TearDownPhase.class.getSimpleName());
   }
 
+  // checkstyle:WriteTag OFF
+
   @Override
   public boolean execute() {
     return true;
   }
+
+  // checkstyle:WriteTag ON
 }

@@ -75,7 +75,10 @@ public class CmdTask implements Task {
    */
   public static final boolean verifySuccess(CmdResponse responseData, String... messages) {
     boolean exitSuccessfully = CmdTask.SUCCESS_EXIT.verify(responseData);
-    boolean expectedMsg = messages.length == 0 ? true : StringUtils.containsAny(responseData.getMessage(), messages);
+    boolean expectedMsg = true;
+    if (messages.length > 0) {
+      expectedMsg = StringUtils.containsAny(responseData.getMessage(), messages);
+    }
     return exitSuccessfully && expectedMsg;
   }
 
@@ -255,6 +258,8 @@ public class CmdTask implements Task {
     return new DefaultExecuteResultHandler();
   }
 
+  // checkstyle:WriteTag OFF
+
   private CmdResponse executeCommand(CommandLine commandLine) throws MuphinFailureException {
     LOG.debug("command: {}", this.command);
     DefaultExecutor executor = getExecutor();
@@ -296,4 +301,6 @@ public class CmdTask implements Task {
     }
     return new CmdResponse(exitValue, responseMsg, exception);
   }
+
+  // checkstyle:WriteTag ON
 }

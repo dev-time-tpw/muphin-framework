@@ -87,6 +87,8 @@ import de.devtime.muphin.core.workflow.AbstractWorkflow;
  */
 public class WorkflowRunner extends Runner implements Filterable {
 
+  // checkstyle:WriteTag OFF
+
   private interface Callback {
     default void workflow(AbstractWorkflow workflow) {
       // default implementation that does nothing to allow only override necessary methods
@@ -108,6 +110,8 @@ public class WorkflowRunner extends Runner implements Filterable {
       // default implementation that does nothing to allow only override necessary methods
     }
   }
+
+  // checkstyle:WriteTag ON
 
   private static final Logger LOG = LoggerFactory.getLogger(WorkflowRunner.class);
 
@@ -163,6 +167,7 @@ public class WorkflowRunner extends Runner implements Filterable {
     Description description;
     description = Description.createSuiteDescription(clazz, this.testClass.getAnnotations());
 
+    // checkstyle:WriteTag OFF
     iterateThroughChildren(getFilteredChildren(), new Callback() {
       private Description workflowDescription;
       private Description phaseDescription;
@@ -191,6 +196,7 @@ public class WorkflowRunner extends Runner implements Filterable {
         this.phaseDescription.addChild(describeChild(method));
       }
     });
+    // checkstyle:WriteTag ON
 
     return description;
   }
@@ -208,6 +214,7 @@ public class WorkflowRunner extends Runner implements Filterable {
     LOG.info("{} workflow{} in {} test class{} found.", children.size(), children.size() > 1 ? "s" : "",
         this.testClassesAmount, this.testClassesAmount > 1 ? "es" : "");
     MuphinSession session = MuphinSession.getInstance();
+    // checkstyle:WriteTag OFF
     iterateThroughChildren(children, new Callback() {
 
       @Override
@@ -240,6 +247,7 @@ public class WorkflowRunner extends Runner implements Filterable {
         runChild(method, notifier);
       }
     });
+    // checkstyle:WriteTag ON
     session.setCurrentWorkflow(null);
     session.setCurrentPhase(null);
   }
@@ -256,6 +264,7 @@ public class WorkflowRunner extends Runner implements Filterable {
     this.childrenLock.lock();
     try {
       Map<String, Map<String, List<FrameworkMethod>>> children = getFilteredChildren();
+      // checkstyle:WriteTag OFF
       iterateThroughChildren(children, new Callback() {
 
         @Override
@@ -280,6 +289,7 @@ public class WorkflowRunner extends Runner implements Filterable {
           }
         }
       });
+      // checkstyle:WriteTag ON
       this.filteredChildren = Collections.unmodifiableMap(children);
       if (getFrameworkMethods(this.filteredChildren).isEmpty()) {
         throw new NoTestsRemainException();
@@ -342,12 +352,14 @@ public class WorkflowRunner extends Runner implements Filterable {
     if (isIgnored(method)) {
       notifier.fireTestIgnored(description);
     } else {
+      // checkstyle:WriteTag OFF
       Statement statement = new Statement() {
         @Override
         public void evaluate() throws Throwable {
           methodBlock(method).evaluate();
         }
       };
+      // checkstyle:WriteTag ON
       runLeaf(statement, description, notifier);
     }
   }
@@ -374,12 +386,14 @@ public class WorkflowRunner extends Runner implements Filterable {
   protected Statement methodBlock(final FrameworkMethod method) {
     Object test;
     try {
+      // checkstyle:WriteTag OFF
       test = new ReflectiveCallable() {
         @Override
         protected Object runReflectiveCall() throws Throwable {
           return createTest(method);
         }
       }.run();
+      // checkstyle:WriteTag ON
     } catch (Throwable e) {
       return new Fail(e);
     }
@@ -409,6 +423,8 @@ public class WorkflowRunner extends Runner implements Filterable {
   protected boolean isIgnored(FrameworkMethod method) {
     return method.getAnnotation(Ignore.class) != null;
   }
+
+  // checkstyle:WriteTag OFF
 
   private List<FrameworkMethod> getFrameworkMethods(Map<String, Map<String, List<FrameworkMethod>>> children) {
     List<FrameworkMethod> frameworkMethods = new ArrayList<>();
@@ -596,4 +612,6 @@ public class WorkflowRunner extends Runner implements Filterable {
     LOG.info("|   Run Phase '{}'   |", phase.getName());
     LOG.info("{}", line);
   }
+
+  // checkstyle:WriteTag ON
 }

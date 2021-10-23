@@ -19,8 +19,12 @@ public class NoPhase extends AbstractPhase {
     super(AbstractPhase.INTERNAL_KIND, NoPhase.class.getSimpleName());
   }
 
+  // checkstyle:WriteTag OFF
+
   @Override
   public boolean execute() {
     return true;
   }
+
+  // checkstyle:WriteTag ON
 }

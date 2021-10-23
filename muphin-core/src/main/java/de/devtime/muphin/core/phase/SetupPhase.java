@@ -22,8 +22,12 @@ public class SetupPhase extends AbstractPhase {
     super(AbstractPhase.INTERNAL_KIND, SetupPhase.class.getSimpleName());
   }
 
+  // checkstyle:WriteTag OFF
+
   @Override
   public boolean execute() {
     return true;
   }
+
+  // checkstyle:WriteTag ON
 }
