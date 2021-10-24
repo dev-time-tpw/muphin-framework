@@ -2,6 +2,7 @@ package de.devtime.muphin.core;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
@@ -38,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.devtime.muphin.core.annotation.Phase;
+import de.devtime.muphin.core.annotation.WorkflowClasses;
 import de.devtime.muphin.core.annotation.WorkflowTest;
 import de.devtime.muphin.core.phase.AbstractPhase;
 import de.devtime.muphin.core.phase.NoPhase;
@@ -54,11 +57,26 @@ import de.devtime.muphin.core.workflow.AbstractWorkflow;
  *
  * <p>
  * <b>Suite variant</b><br>
- * Use the runner on an empty test class analogous to a {@linkplain Suite}. If no concrete workflow classes are
- * specified, all test classes on the classpath that have an {@link WorkflowTest} annotation are used for a test.
+ * Use the runner on an empty test class analogous to a {@link Suite}. If no concrete workflow classes are specified,
+ * all test classes on the classpath that have an {@link WorkflowTest} annotation are used for a test.
  *
  * <pre>
  * &#64;RunWith(WorkflowRunner.class)
+ * public class MyTestSuite {
+ *
+ * }
+ * </pre>
+ *
+ * <p>
+ * <b>Suite variant with specific classes</b><br>
+ * Use the runner on an empty test class analogous to a {@link Suite} and annotate this class with
+ * {@link WorkflowClasses}. All test classes specified here are taken into account in the workflow test run.
+ *
+ * <pre>
+ * &#64;RunWith(WorkflowRunner.class)
+ * &#64;WorkflowClasses({
+ *     TestClassA.class, TestClassB.class
+ * })
  * public class MyTestSuite {
  *
  * }
@@ -122,7 +140,7 @@ public class WorkflowRunner extends Runner implements Filterable {
   private int testClassesAmount;
 
   // Guarded by childrenLock
-  private Map<String, Map<String, List<FrameworkMethod>>> filteredChildren;
+  private Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> filteredChildren;
 
   private final ConcurrentMap<FrameworkMethod, Description> methodDescriptions = new ConcurrentHashMap<>();
 
@@ -210,7 +228,7 @@ public class WorkflowRunner extends Runner implements Filterable {
   @Override
   public void run(RunNotifier notifier) {
     printMuphin();
-    Map<String, Map<String, List<FrameworkMethod>>> children = getFilteredChildren();
+    Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> children = getFilteredChildren();
     LOG.info("{} workflow{} in {} test class{} found.", children.size(), children.size() > 1 ? "s" : "",
         this.testClassesAmount, this.testClassesAmount > 1 ? "es" : "");
     MuphinSession session = MuphinSession.getInstance();
@@ -263,7 +281,7 @@ public class WorkflowRunner extends Runner implements Filterable {
   public void filter(Filter filter) throws NoTestsRemainException {
     this.childrenLock.lock();
     try {
-      Map<String, Map<String, List<FrameworkMethod>>> children = getFilteredChildren();
+      Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> children = getFilteredChildren();
       // checkstyle:WriteTag OFF
       iterateThroughChildren(children, new Callback() {
 
@@ -426,7 +444,8 @@ public class WorkflowRunner extends Runner implements Filterable {
 
   // checkstyle:WriteTag OFF
 
-  private List<FrameworkMethod> getFrameworkMethods(Map<String, Map<String, List<FrameworkMethod>>> children) {
+  private List<FrameworkMethod> getFrameworkMethods(
+      Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> children) {
     List<FrameworkMethod> frameworkMethods = new ArrayList<>();
     iterateThroughChildren(children, new Callback() {
 
@@ -443,17 +462,18 @@ public class WorkflowRunner extends Runner implements Filterable {
     return frameworkMethods;
   }
 
-  private void iterateThroughChildren(Map<String, Map<String, List<FrameworkMethod>>> children, Callback callback) {
+  private void iterateThroughChildren(
+      Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> children, Callback callback) {
     /*
      * Reduces complexity for several methods that iterates through the filteredChildren. This methods only have to
      * implement the needed callback methods.
      */
-    for (AbstractWorkflow workflow : INSTANCES.getWorkflows()) {
+    for (AbstractWorkflow workflow : getWorkflows()) {
       callback.workflow(workflow);
       List<AbstractPhase> phases = getPhases(workflow);
       for (AbstractPhase phase : phases) {
         callback.phase(phase);
-        Map<String, List<FrameworkMethod>> workflowChildren = children.get(workflow.getName());
+        Map<String, List<FrameworkMethod>> workflowChildren = children.get(workflow.getClass());
         if (workflowChildren != null) {
           for (Iterator<FrameworkMethod> iter = getIterator(workflowChildren, beforePhaseKey(phase)); iter.hasNext();) {
             FrameworkMethod testMethod = iter.next();
@@ -469,6 +489,13 @@ public class WorkflowRunner extends Runner implements Filterable {
     }
   }
 
+  private Set<AbstractWorkflow> getWorkflows() {
+    return getFilteredChildren().keySet()
+        .stream()
+        .map(InstanceManager.getInstance()::getWorkflow)
+        .collect(Collectors.toSet());
+  }
+
   private Iterator<FrameworkMethod> getIterator(Map<String, List<FrameworkMethod>> childrenOfWorkflow, String key) {
     List<FrameworkMethod> methods = childrenOfWorkflow.get(key);
     if (methods == null) {
@@ -477,7 +504,7 @@ public class WorkflowRunner extends Runner implements Filterable {
     return methods.iterator();
   }
 
-  private Map<String, Map<String, List<FrameworkMethod>>> getFilteredChildren() {
+  private Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> getFilteredChildren() {
     if (this.filteredChildren == null) {
       this.childrenLock.lock();
       try {
@@ -489,29 +516,43 @@ public class WorkflowRunner extends Runner implements Filterable {
     return this.filteredChildren;
   }
 
-  private Map<String, Map<String, List<FrameworkMethod>>> getChildren() {
+  private Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> getChildren() {
     return scanForPhases(scanForWorkflowTestClasses());
   }
 
   private Set<Class<?>> scanForWorkflowTestClasses() {
     Set<Class<?>> workflowTestClasses = new HashSet<>();
-    WorkflowTest annotation = this.testClass.getJavaClass().getAnnotation(WorkflowTest.class);
-    if (annotation == null) {
+    WorkflowTest workflowTestAnnotation = this.testClass.getJavaClass().getAnnotation(WorkflowTest.class);
+    if (workflowTestAnnotation == null) {
       Reflections refUtil = new Reflections("");
+      WorkflowClasses workflowClassesAnnotation = this.testClass.getJavaClass().getAnnotation(WorkflowClasses.class);
+      Set<Class<?>> classesToExecute = new HashSet<>();
+      if (workflowClassesAnnotation != null) {
+        classesToExecute.addAll(Arrays.asList(workflowClassesAnnotation.value()));
+      }
       try {
-        workflowTestClasses.addAll(refUtil.getTypesAnnotatedWith(WorkflowTest.class));
+        Set<Class<?>> foundClasses = refUtil.getTypesAnnotatedWith(WorkflowTest.class);
+        if (workflowClassesAnnotation == null) {
+          workflowTestClasses.addAll(foundClasses);
+        } else {
+          workflowTestClasses = foundClasses.stream()
+              .filter(classesToExecute::contains)
+              .collect(Collectors.toSet());
+        }
       } catch (ReflectionsException e) {
         throw new IllegalStateException("An error occurs while scanning classpath for test classes", e);
       }
     } else {
       workflowTestClasses.add(this.testClass.getJavaClass());
     }
+
     this.testClassesAmount = workflowTestClasses.size();
     return workflowTestClasses;
   }
 
-  private Map<String, Map<String, List<FrameworkMethod>>> scanForPhases(Set<Class<?>> workflowTestClasses) {
-    Map<String, Map<String, List<FrameworkMethod>>> children = new HashMap<>();
+  private Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> scanForPhases(
+      Set<Class<?>> workflowTestClasses) {
+    Map<Class<? extends AbstractWorkflow>, Map<String, List<FrameworkMethod>>> children = new HashMap<>();
 
     /* Each test method is assigned to a workflow and a phase. Therefore, all workflow test classes must be searched
      * first. Then the @Phase annotation can be used to collect the test methods belonging to this workflow and assign
@@ -522,7 +563,7 @@ public class WorkflowRunner extends Runner implements Filterable {
     for (Class<?> workflowTestClass : workflowTestClasses) {
       WorkflowTest annotation = workflowTestClass.getAnnotation(WorkflowTest.class);
       AbstractWorkflow workflow = INSTANCES.getWorkflow(annotation.value());
-      children.compute(workflow.getName(), (key, value) -> {
+      children.compute(workflow.getClass(), (key, value) -> {
         if (value == null) {
           value = new HashMap<>();
         }

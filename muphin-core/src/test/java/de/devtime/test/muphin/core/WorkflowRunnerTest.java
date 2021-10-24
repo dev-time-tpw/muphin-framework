@@ -24,15 +24,18 @@ import org.junit.runners.model.TestClass;
 
 import de.devtime.muphin.core.WorkflowRunner;
 import de.devtime.test.muphin.helper.MuphinTestSuite;
+import de.devtime.test.muphin.helper.MuphinTestSuiteA;
 import de.devtime.test.muphin.helper.TestClassA1;
 
 public class WorkflowRunnerTest {
 
   private WorkflowRunner sut;
+  private WorkflowRunner sut2;
 
   @Before
   public void setup() {
     this.sut = new WorkflowRunner(MuphinTestSuite.class);
+    this.sut2 = new WorkflowRunner(MuphinTestSuiteA.class);
   }
 
   @Test
@@ -147,6 +150,38 @@ public class WorkflowRunnerTest {
   }
 
   @Test
+  public void testGetDescriptionWithSuiteA() {
+    Description description = this.sut2.getDescription();
+
+    assertThat(description, is(notNullValue()));
+    assertThat(description.getDisplayName(), containsString(MuphinTestSuiteA.class.getName()));
+
+    ArrayList<Description> workflows = description.getChildren();
+    assertThat(workflows, hasSize(1));
+    assertThat(workflows.get(0).getDisplayName(), containsString("WorkflowA"));
+
+    ArrayList<Description> workflowAPhases = workflows.get(0).getChildren();
+    assertThat(workflowAPhases, hasSize(4));
+    assertThat(workflowAPhases.get(0).getDisplayName(), containsString("SetupPhase"));
+    assertThat(workflowAPhases.get(1).getDisplayName(), containsString("TestPhaseA"));
+    assertThat(workflowAPhases.get(2).getDisplayName(), containsString("TestPhaseB"));
+    assertThat(workflowAPhases.get(3).getDisplayName(), containsString("TearDownPhase"));
+
+    ArrayList<Description> workflowASetupPhase = workflowAPhases.get(0).getChildren();
+    assertThat(workflowASetupPhase, hasSize(4));
+    List<String> beforeSetupPhase = Arrays.asList(
+        workflowASetupPhase.get(0).getMethodName(),
+        workflowASetupPhase.get(1).getMethodName());
+    assertThat(beforeSetupPhase,
+        containsInAnyOrder("testTC1WorkflowABeforeSetupPhase", "testTC2WorkflowABeforeSetupPhase"));
+    List<String> afterSetupPhase = Arrays.asList(
+        workflowASetupPhase.get(2).getMethodName(),
+        workflowASetupPhase.get(3).getMethodName());
+    assertThat(afterSetupPhase,
+        containsInAnyOrder("testTC1WorkflowAAfterSetupPhase", "testTC2WorkflowAAfterSetupPhase"));
+  }
+
+  @Test
   public void testRun() {
     List<String> executedTestMethod = new ArrayList<>();
     RunNotifier notifier = new RunNotifier();
@@ -246,6 +281,68 @@ public class WorkflowRunnerTest {
     assertThat(worklfowBAfterTearDownPhase,
         containsInAnyOrder(
             "testWorkflowBAfterTearDownPhase(de.devtime.test.muphin.helper.TestClassB)"));
+  }
+
+  @Test
+  public void testRunWithSuiteA() {
+    List<String> executedTestMethod = new ArrayList<>();
+    RunNotifier notifier = new RunNotifier();
+    notifier.addListener(new RunListener() {
+      @Override
+      public void testStarted(Description description) throws Exception {
+        executedTestMethod.add(description.getDisplayName());
+      }
+    });
+    this.sut2.run(notifier);
+    assertThat(executedTestMethod, hasSize(16));
+
+    List<String> worklfowABeforeSetupPhase = Arrays.asList(executedTestMethod.get(0), executedTestMethod.get(1));
+    assertThat(worklfowABeforeSetupPhase,
+        containsInAnyOrder(
+            "testTC1WorkflowABeforeSetupPhase(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowABeforeSetupPhase(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowAAfterSetupPhase = Arrays.asList(executedTestMethod.get(2), executedTestMethod.get(3));
+    assertThat(worklfowAAfterSetupPhase,
+        containsInAnyOrder(
+            "testTC1WorkflowAAfterSetupPhase(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowAAfterSetupPhase(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowABeforeTestPhaseA = Arrays.asList(executedTestMethod.get(4), executedTestMethod.get(5));
+    assertThat(worklfowABeforeTestPhaseA,
+        containsInAnyOrder(
+            "testTC1WorkflowABeforeTestPhaseA(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowABeforeTestPhaseA(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowAAfterTestPhaseA = Arrays.asList(executedTestMethod.get(6), executedTestMethod.get(7));
+    assertThat(worklfowAAfterTestPhaseA,
+        containsInAnyOrder(
+            "testTC1WorkflowAAfterTestPhaseA(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowAAfterTestPhaseA(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowABeforeTestPhaseB = Arrays.asList(executedTestMethod.get(8), executedTestMethod.get(9));
+    assertThat(worklfowABeforeTestPhaseB,
+        containsInAnyOrder(
+            "testTC1WorkflowABeforeTestPhaseB(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowABeforeTestPhaseB(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowAAfterTestPhaseB = Arrays.asList(executedTestMethod.get(10), executedTestMethod.get(11));
+    assertThat(worklfowAAfterTestPhaseB,
+        containsInAnyOrder(
+            "testTC1WorkflowAAfterTestPhaseB(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowAAfterTestPhaseB(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowABeforeTearDownPhase = Arrays.asList(executedTestMethod.get(12), executedTestMethod.get(13));
+    assertThat(worklfowABeforeTearDownPhase,
+        containsInAnyOrder(
+            "testTC1WorkflowABeforeTearDownPhase(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowABeforeTearDownPhase(de.devtime.test.muphin.helper.TestClassA2)"));
+
+    List<String> worklfowAAfterTearDownPhase = Arrays.asList(executedTestMethod.get(14), executedTestMethod.get(15));
+    assertThat(worklfowAAfterTearDownPhase,
+        containsInAnyOrder(
+            "testTC1WorkflowAAfterTearDownPhase(de.devtime.test.muphin.helper.TestClassA1)",
+            "testTC2WorkflowAAfterTearDownPhase(de.devtime.test.muphin.helper.TestClassA2)"));
   }
 
   @Test
