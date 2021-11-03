@@ -5,7 +5,7 @@
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.9</version>
+		<version>${maven-fluido-skin.version}</version>
 	</skin>
 
 	<bannerRight>
@@ -32,15 +32,11 @@
 
 		<menu name="Examples">
 <!-- 			<item name="Creating Content" href="/examples/creating-content.html" /> -->
-<!-- 			<item name="Configuring the Site Descriptor" href="/examples/sitedescriptor.html" /> -->
-<!-- 			<item name="Building a multi-module site" href="/examples/multimodule.html" /> -->
-<!-- 			<item name="Configuring Site Run" href="/examples/siterun.html" /> -->
-<!-- 			<item name="Excluding Document Formats" href="/examples/moduleexcludes.html" /> -->
 		</menu>
 
 		<menu ref="reports" />
 
-		<footer><![CDATA[Copyright (c) 2021 <img src="https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-86x12.png" />. All rights reserved.]]></footer>
+		<footer><![CDATA[Copyright (c) 2021 <img src="https://raw.githubusercontent.com/dev-time-tpw/parent-pom/main/images/dev-time-86x15.png" />. All rights reserved.]]></footer>
 
 	</body>
 </project>
