@@ -489,12 +489,12 @@ public class WorkflowRunner extends Runner implements Filterable {
     }
   }
 
-  private Set<AbstractWorkflow> getWorkflows() {
+  private List<AbstractWorkflow> getWorkflows() {
     return getFilteredChildren().keySet()
         .stream()
         .map(InstanceManager.getInstance()::getWorkflow)
         .sorted((o1, o2) -> o1.getName().compareTo(o2.getName()))
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
   private Iterator<FrameworkMethod> getIterator(Map<String, List<FrameworkMethod>> childrenOfWorkflow, String key) {

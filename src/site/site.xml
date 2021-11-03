@@ -16,13 +16,16 @@
 	<publishDate position="right" />
 
 	<body>
+	
+		<breadcrumbs>
+			<item name="dev|time" href="http://dev-time.de/javadoc/welcome.html" />
+			<item name="Checkstyle parent-pom" href="http://dev-time.de/javadoc/checkstyle-parent-pom/index.html" />
+			<item name="Muphin Framework" href="http://dev-time.de/javadoc/checkstyle-parent-pom/muphin-build/index.html" />
+		</breadcrumbs>
+			
 		<menu name="Overview">
 			<item name="Introduction" href="index.html" />
-<!-- 			<item name="Usage" href="usage.html" /> -->
-<!-- 			<item name="FAQ" href="faq.html" /> -->
-			<!-- According to https://issues.apache.org/jira/browse/MNGSITE-152 -->
 			<item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
-<!-- 			<item name="Download" href="download.html" /> -->
 		</menu>
 
 		<menu ref="modules" />
